@@ -1,9 +1,13 @@
 package com.example.daytodaytest.network
 
+import android.content.Context
 import com.example.daytodaytest.BuildConfig
 import com.example.daytodaytest.pref.TokenPref
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.squareup.picasso.Downloader
+import com.squareup.picasso.OkHttp3Downloader
+import com.squareup.picasso.Picasso
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -19,6 +23,7 @@ const val RETROFIT = "RETROFIT"
 private const val HTTP_CLIENT = "HTTP_CLIENT"
 private const val HTTP_LOGGING = "HTTP_LOGGING"
 private const val AUTH_INTERCEPTOR = "AUTH_INTERCEPTOR"
+private const val AUTH_PICASSO = "AUTH_PICASSO"
 const val GSON = "SDK_GSON"
 
 /**
@@ -38,6 +43,8 @@ val networkModule = module {
     factory(named(AUTH_INTERCEPTOR)) { AuthenticatorInterceptor(TokenPref(androidContext())) }
 
     single(named(GSON)) { provideGson() }
+
+    single(named(AUTH_PICASSO)) { getPicasso(androidContext(), get(named(HTTP_CLIENT))) }
 }
 
 
@@ -75,6 +82,12 @@ fun providesOkHttpClient(
     return OkHttpClient.Builder().connectTimeout(60L, TimeUnit.SECONDS)
         .readTimeout(60L, TimeUnit.SECONDS).addInterceptor(httpLoggingInterceptor)
         .addInterceptor(authenticatorInterceptor).build()
+}
+
+fun getPicasso(context: Context, okHttpClient: OkHttpClient): Picasso {
+    val builder = Picasso.Builder(context)
+    builder.loggingEnabled(true)
+    return builder.downloader(OkHttp3Downloader(okHttpClient)).build()
 }
 
 /**

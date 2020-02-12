@@ -1,7 +1,6 @@
 package com.example.daytodaytest
 
 import com.example.daytodaytest.dashboard.*
-import com.example.daytodaytest.dashboard.database.DashboardDatabaseManager
 import com.example.daytodaytest.network.Environment
 import com.example.daytodaytest.network.EnvironmentManager
 import com.example.daytodaytest.network.RETROFIT

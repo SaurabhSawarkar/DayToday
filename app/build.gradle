@@ -92,6 +92,11 @@ dependencies {
     implementation "org.koin:koin-test:${koin}"
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    implementation 'com.squareup.okhttp:okhttp:2.2.0'
 
     testImplementation "android.arch.core:core-testing:$lifecycle_version"
+
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
 }
