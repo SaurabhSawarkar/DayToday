@@ -1,8 +1,15 @@
 package com.example.daytodaytest.dashboard.model
 
+import android.os.Parcelable
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import android.os.Parcel
+import io.realm.RealmObject.asChangesetObservable
+import io.realm.RealmObject.asFlowable
+import io.realm.RealmObject.asChangesetObservable
+import io.realm.RealmObject.asFlowable
+
 
 open class MoviesResponse(
     /*var object_ids: String? = null,
@@ -75,7 +82,58 @@ open class Results(
     var adult: String? = null,
 
     var vote_count: String? = null
-) : RealmObject()
+) : RealmObject(), Parcelable {
+
+    override fun writeToParcel(dest: Parcel?, flags: Int) {
+        dest?.writeString(id)
+        dest?.writeString(overview)
+        dest?.writeString(original_language)
+        dest?.writeString(original_title)
+        dest?.writeString(video)
+        dest?.writeString(title)
+        dest?.writeString(poster_path)
+        dest?.writeString(backdrop_path)
+        dest?.writeString(media_type)
+        dest?.writeString(release_date)
+        dest?.writeString(popularity)
+        dest?.writeString(vote_average)
+        dest?.writeString(adult)
+        dest?.writeString(vote_count)
+    }
+
+
+    constructor(parcel: Parcel) : this(
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        RealmList(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString()
+    )
+
+    companion object CREATOR : Parcelable.Creator<Results> {
+        override fun createFromParcel(parcel: Parcel): Results {
+            return Results(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Results?> {
+            return arrayOfNulls(size)
+        }
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+}
 
 open class Created_by(
     var gravatar_hash: String? = null,
